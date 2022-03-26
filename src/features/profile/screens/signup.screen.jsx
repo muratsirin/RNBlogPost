@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectError } from "../../../redux/authentication/authentication.slice";
+import { signUp } from "../../../redux/authentication/authentication.actions";
 import { AuthButton } from "../components/form/auth-button.component";
 import { FormHeading } from "../components/form/form-heading.component";
 import { FormControl } from "../components/form/form-control.component";
@@ -6,10 +9,16 @@ import { FormLink } from "../components/form/form-link.component";
 import { Box, Text, VStack, HStack, Center } from "native-base";
 
 export const SignupScreen = ({ navigation }) => {
-  const [name, setName] = useState(null);
-  const [surname, setSurname] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
+  const [user, setUser] = useState({});
+
+  const onPress = () => {
+    dispatch(signUp(user));
+    if (!error) {
+      navigation.navigate("Profile");
+    }
+  };
 
   return (
     <Box
@@ -26,27 +35,31 @@ export const SignupScreen = ({ navigation }) => {
             <HStack w="48%" space={3}>
               <FormControl
                 label="Name"
-                value={name}
-                onChangeText={(value) => setName(value)}
+                value={user.name}
+                onChangeText={(name) => setUser({ ...user, name: name })}
               />
               <FormControl
                 label="Surname"
-                value={surname}
-                onChangeText={(value) => setSurname(value)}
+                value={user.surname}
+                onChangeText={(surname) =>
+                  setUser({ ...user, surname: surname })
+                }
               />
             </HStack>
             <FormControl
               label="Email"
-              value={email}
-              onChangeText={(value) => setEmail(value)}
+              value={user.email}
+              onChangeText={(email) => setUser({ ...user, email: email })}
             />
             <FormControl
               label="Password"
               type="password"
-              value={password}
-              onChangeText={(value) => setPassword(value)}
+              value={user.password}
+              onChangeText={(password) =>
+                setUser({ ...user, password: password })
+              }
             />
-            <AuthButton text="Sign up" isLoading={false} onPress={() => {}} />
+            <AuthButton text="Sign up" isLoading={false} onPress={onPress} />
           </VStack>
           <HStack mt="6" justifyContent="center">
             <Text>Already have a account? </Text>

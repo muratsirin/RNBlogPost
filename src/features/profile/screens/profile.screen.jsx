@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "native-base";
 import { ProfileInfo } from "../components/profile-screen/profile-info.component";
 import { Auth } from "../components/auth/auth.component";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { onAuthStateChange } from "../../../redux/authentication/authentication.slice";
 
 export const ProfileScreen = ({ navigation }) => {
-  const user = "";
+  const currentUser = "";
+  const auth = getAuth();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch(onAuthStateChange(JSON.stringify(user.providerData)));
+    });
+  }, [auth, dispatch]);
+
   return (
     <Box
       _dark={{ bg: "dark.50" }}
@@ -12,10 +24,10 @@ export const ProfileScreen = ({ navigation }) => {
       px={2}
       py={2}
       flex={1}
-      alignItems={!user ? "center" : "stretch"}
+      alignItems={!currentUser ? "center" : "stretch"}
       justifyContent="center"
     >
-      {user ? (
+      {currentUser ? (
         <ProfileInfo
           onSignOut={() => {}}
           user="Murat Sirin"
