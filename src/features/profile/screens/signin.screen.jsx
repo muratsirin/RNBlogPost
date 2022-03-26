@@ -1,4 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../../../redux/authentication/authentication.actions";
+import { selectError } from "../../../redux/authentication/authentication.slice";
 import { AuthButton } from "../components/form/auth-button.component";
 import { FormHeading } from "../components/form/form-heading.component";
 import { FormControl } from "../components/form/form-control.component";
@@ -6,8 +9,16 @@ import { FormLink } from "../components/form/form-link.component";
 import { Box, Text, VStack, HStack, Center } from "native-base";
 
 export const SigninScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
+  const error = useSelector(selectError);
+
+  const handleSignIn = () => {
+    dispatch(signIn(user));
+    if (!error) {
+      navigation.navigate("Profile");
+    }
+  };
 
   return (
     <Box
@@ -23,17 +34,23 @@ export const SigninScreen = ({ navigation }) => {
           <VStack space={3} mt="5">
             <FormControl
               label="Email"
-              value={email}
-              onChangeText={(value) => setEmail(value)}
+              value={user.email}
+              onChangeText={(email) => setUser({ ...user, email: email })}
             />
             <FormControl
               label="Password"
               type="password"
-              value={password}
-              onChangeText={(value) => setPassword(value)}
+              value={user.password}
+              onChangeText={(password) =>
+                setUser({ ...user, password: password })
+              }
             />
             <FormLink text="Forget Password" alignSelf="flex-end" />
-            <AuthButton text="Sign in" isLoading={false} onPress={() => {}} />
+            <AuthButton
+              text="Sign in"
+              isLoading={false}
+              onPress={handleSignIn}
+            />
           </VStack>
           <HStack mt="6" justifyContent="center">
             <Text>I'm a new user. </Text>

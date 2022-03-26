@@ -9,7 +9,7 @@ const authenticationSlice = createSlice({
   },
   reducers: {
     onAuthStateChange: (state, action) => {
-      state.user = action.payload;
+      state.currentUser = action.payload;
     },
     loading: (state, action) => {
       state.isLoading = action.payload;
@@ -25,5 +25,6 @@ export const { onAuthStateChange, loading, onError } =
 
 export const selectError = (state) => state.authentication.error;
 export const selectCurrentUser = (state) => state.authentication.currentUser;
+export const selectLoading = (state) => state.authentication.isLoading;
 
 export const authenticationReducer = authenticationSlice.reducer;

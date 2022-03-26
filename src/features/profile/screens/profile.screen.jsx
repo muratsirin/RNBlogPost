@@ -1,21 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box } from "native-base";
 import { ProfileInfo } from "../components/profile-screen/profile-info.component";
 import { Auth } from "../components/auth/auth.component";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { onAuthStateChange } from "../../../redux/authentication/authentication.slice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  selectLoading,
+  selectError,
+} from "../../../redux/authentication/authentication.slice";
+import { signOut } from "../../../redux/authentication/authentication.actions";
 
 export const ProfileScreen = ({ navigation }) => {
-  const currentUser = "";
-  const auth = getAuth();
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+  const isLoading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      dispatch(onAuthStateChange(JSON.stringify(user.providerData)));
-    });
-  }, [auth, dispatch]);
+  // const handleSignOut = () => {
+  //   dispatch(signOut());
+  //   if()
+  // }
 
   return (
     <Box
@@ -29,10 +33,12 @@ export const ProfileScreen = ({ navigation }) => {
     >
       {currentUser ? (
         <ProfileInfo
-          onSignOut={() => {}}
-          user="Murat Sirin"
-          isLoading={false}
-          error={""}
+          onSignOut={() => {
+            dispatch(signOut());
+          }}
+          user={currentUser[0].displayName}
+          isLoading={isLoading}
+          error={error}
         />
       ) : (
         <Auth navigation={navigation} />
