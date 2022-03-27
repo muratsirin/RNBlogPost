@@ -7,9 +7,9 @@ import { Divider, ScrollView } from "native-base";
 export const PostDetail = ({ post = {}, navigation }) => {
   const {
     author = { name: "Murat", surname: "Sirin" },
-    title,
-    content,
-    photos,
+    postTitle,
+    postContent,
+    image,
     postDate = "25.02.2022 16.00",
     likeCount = "384",
     commentCount = "24",
@@ -20,7 +20,7 @@ export const PostDetail = ({ post = {}, navigation }) => {
     <ScrollView>
       <Author author={author} postDate={postDate} />
       <Divider my="2" />
-      <PostDetailBody title={title} photo={photos[0]} content={content} />
+      <PostDetailBody title={postTitle} photo={image} content={postContent} />
       <Divider my="2" />
       <PostSocial
         likeCount={likeCount}

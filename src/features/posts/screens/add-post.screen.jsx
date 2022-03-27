@@ -1,5 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { addPost } from "../../../redux/post/post.actions";
 import {
   Box,
   VStack,
@@ -12,14 +14,11 @@ import {
   IconButton,
   AspectRatio,
 } from "native-base";
-import { PostsContext } from "../../../services/posts/posts.context";
 import * as ImagePicker from "expo-image-picker";
 
 export const AddPostScreen = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState();
-  const { addPost, isLoading, error } = useContext(PostsContext);
+  const dispatch = useDispatch();
+  const [post, setPost] = useState({});
 
   const selectImage = async () => {
     const permissionResult =
@@ -36,11 +35,11 @@ export const AddPostScreen = () => {
       return;
     }
 
-    setImage({ localUri: pickerResult.uri });
+    setPost({ ...post, image: pickerResult.uri });
   };
 
   const onPress = () => {
-    addPost(title, content, image ? image.localUri : "");
+    dispatch(addPost(post));
   };
 
   return (
@@ -53,11 +52,11 @@ export const AddPostScreen = () => {
       justifyContent="center"
     >
       <Box alignItems="center" mb="3">
-        {image ? (
+        {post.image ? (
           <AspectRatio w="100%" ratio={16 / 9}>
             <Image
               source={{
-                uri: image.localUri,
+                uri: post.image,
               }}
               alt="Alternate Text"
             />
@@ -75,12 +74,12 @@ export const AddPostScreen = () => {
         <Input
           size="md"
           placeholder="What about your post?"
-          onChangeText={(value) => setTitle(value)}
+          onChangeText={(title) => setPost({ ...post, postTitle: title })}
         />
         <TextArea
           h={20}
           placeholder="Your post content"
-          onChangeText={(value) => setContent(value)}
+          onChangeText={(content) => setPost({ ...post, postContent: content })}
         />
         <Button colorScheme="indigo" onPress={onPress}>
           <Text fontSize={18}>Save</Text>

@@ -2,7 +2,6 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PostsNavigator } from "./posts.navigator";
-import { PostsContextProvider } from "../../services/posts/posts.context";
 import { SafeArea } from "../../components/utility/safe-area.component";
 import { Text, VStack } from "native-base";
 import { BottomNavigationBar } from "../../components/navigation-bar/bottom-navigation-bar.component";

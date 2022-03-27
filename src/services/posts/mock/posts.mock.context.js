@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import { postsRequest, postsTransform } from "./posts.service";
+import { postsRequest, postsTransform } from "./posts.mockservice";
 
 export const PostsContext = createContext();
 

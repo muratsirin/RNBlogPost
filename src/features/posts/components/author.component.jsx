@@ -11,7 +11,7 @@ export const Author = ({ author, postDate }) => {
         }}
       />
       <VStack>
-        <Text fontSize="md">{author.name + author.surname}</Text>
+        <Text fontSize="md">Murat</Text>
         <HStack alignItems="center">
           <Text
             color="coolGray.600"

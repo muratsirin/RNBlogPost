@@ -1,4 +1,4 @@
-import { mocks, mockImages } from "./mock";
+import { mocks, mockImages } from ".";
 import camelize from "camelize";
 
 export const postsRequest = () => {

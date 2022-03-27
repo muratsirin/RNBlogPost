@@ -1,15 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Box, FlatList, Fab, Icon } from "native-base";
 import { SearchBar } from "../../../components/search-bar/search-bar.component";
 import { PostInfoCard } from "../components/post-info-card/post-info-card.component";
-import { PostsContext } from "../../../services/posts/posts.context";
 import { LoadingSpinner } from "../../../components/utility/loading-spinner.component";
 import { MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
+import {
+  selectError,
+  selectIsLoading,
+  selectPosts,
+} from "../../../redux/post/post.slice";
 
 export const PostsScreen = ({ navigation }) => {
-  const { posts, isLoading, error } = useContext(PostsContext);
+  const posts = useSelector(selectPosts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   return (
     <Box
