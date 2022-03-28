@@ -12,42 +12,30 @@ import {
 const firestore = getFirestore();
 
 export const getPostsRequest = async () => {
-  return new Promise((resolve, reject) => {
-    getDocs(collection(firestore, "posts")).then((querySnapshot) => {
-      if (!querySnapshot.docs) {
-        reject("Posts not found");
-      }
-      resolve(querySnapshot.docs);
-    });
+  return await new Promise((resolve, reject) => {
+    getDocs(collection(firestore, "posts"))
+      .then((querySnapshot) => {
+        resolve(querySnapshot.docs);
+      })
+      .catch(() => {
+        reject("posts not found");
+      });
   });
 };
-
-// export const getPostsRequest = async () => {
-//   try {
-//     return await getDocs(collection(firestore, "posts")).then(
-//       (querySnapshot) => {
-//         querySnapshot.docs.map((post) => {
-//           return post;
-//         });
-//       }
-//     );
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
 
 export const addPostRequest = async (payload = {}) => {
   try {
     const id = doc(collection(firestore, "posts")).id;
     const { postTitle, postContent, image } = payload;
-    const author = getAuth().currentUser;
+    const author = getAuth().currentUser.providerData;
     const imageURL = image ? await uploadPostImage(image) : "";
 
     await setDoc(doc(firestore, "posts", id), {
+      id: id,
       postTitle: postTitle,
       postContent: postContent,
       image: imageURL,
-      author: author,
+      author: { author },
       createdAt: serverTimestamp(firestore),
     });
   } catch (e) {

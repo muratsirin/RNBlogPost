@@ -13,7 +13,6 @@ const postSlice = createSlice({
       state.post = action.payload;
     },
     setPosts: (state, action) => {
-      console.log(action.payload);
       state.posts = action.payload;
     },
     loading: (state, action) => {
