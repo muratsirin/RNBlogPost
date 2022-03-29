@@ -26,8 +26,8 @@ export const getPostsRequest = async () => {
 export const addPostRequest = async (payload = {}) => {
   try {
     const id = doc(collection(firestore, "posts")).id;
-    const { postTitle, postContent, image } = payload;
     const author = getAuth().currentUser.providerData;
+    const { postTitle, postContent, image } = payload;
     const imageURL = image ? await uploadPostImage(image) : "";
 
     await setDoc(doc(firestore, "posts", id), {
@@ -40,6 +40,19 @@ export const addPostRequest = async (payload = {}) => {
     });
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const addCommentToPostRequest = async (payload = {}) => {
+  try {
+    const { id, comment } = payload;
+    const author = getAuth().currentUser.providerData;
+
+    await setDoc(doc(firestore, "posts", id), {
+      comments: [{ comment: comment, author: author }],
+    });
+  } catch (e) {
+    console.log("An error occurred");
   }
 };
 

@@ -2,6 +2,7 @@ import { setPosts, loading, onError } from "./post.slice";
 import {
   getPostsRequest,
   addPostRequest,
+  addCommentToPostRequest,
 } from "../../services/posts/post.service";
 
 export const addPost = (post) => (dispatch) => {
@@ -16,6 +17,18 @@ export const addPost = (post) => (dispatch) => {
     });
 };
 
+export const addCommentToPost = (comment) => (dispatch) => {
+  dispatch(loading(true));
+  addCommentToPostRequest(comment)
+    .then(() => {
+      dispatch(loading(false));
+    })
+    .catch((error) => {
+      dispatch(loading(false));
+      dispatch(onError(error));
+    });
+};
+
 export const getPosts = () => (dispatch) => {
   dispatch(loading(true));
   getPostsRequest()
@@ -24,7 +37,7 @@ export const getPosts = () => (dispatch) => {
       dispatch(loading(false));
       for (var value in posts) {
         const createdAt = posts[value].data().createdAt;
-        values.push({ ...posts[value].data(), id: value });
+        values.push({ ...posts[value].data() });
         values[value].createdAt = createdAt.toDate().toLocaleDateString();
       }
       dispatch(setPosts(values));

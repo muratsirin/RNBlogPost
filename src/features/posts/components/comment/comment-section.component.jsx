@@ -1,8 +1,17 @@
-import React from "react";
-import { Box, HStack, Avatar, Input, IconButton, Button } from "native-base";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Box, HStack, Avatar, Input, IconButton } from "native-base";
+import { addCommentToPost } from "../../../../redux/post/post.actions";
 import { Ionicons } from "@expo/vector-icons";
 
-export const CommentSection = () => {
+export const CommentSection = ({ postId }) => {
+  const dispatch = useDispatch();
+  const [comment, setComment] = useState();
+
+  const handleComment = () => {
+    dispatch(addCommentToPost({ comment: comment, id: postId }));
+  };
+
   return (
     <Box
       borderTopWidth="1"
@@ -25,6 +34,7 @@ export const CommentSection = () => {
           variant="outline"
           placeholder="Make a comment"
           multiline
+          onChangeText={(commentValue) => setComment(commentValue)}
         />
         <IconButton
           size="sm"
@@ -35,6 +45,7 @@ export const CommentSection = () => {
             name: "send",
             color: "white",
           }}
+          onPress={handleComment}
         />
       </HStack>
     </Box>

@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, FlatList } from "native-base";
+import { Box, FlatList, Text, Center } from "native-base";
 import { CommentInfoCard } from "../components/comment/comment-info-card.component";
 import { CommentSection } from "../components/comment/comment-section.component";
 
 export const CommentsScreen = ({ route }) => {
-  const { comments } = route.params;
+  const { comments, postId } = route.params;
 
   return (
     <Box
@@ -14,14 +14,21 @@ export const CommentsScreen = ({ route }) => {
       py={2}
       flex={1}
     >
-      <FlatList
-        data={comments}
-        renderItem={({ item }) => {
-          return <CommentInfoCard comment={item.comment} />;
-        }}
-        keyExtractor={(item) => item.comment.commentId}
-      />
-      <CommentSection />
+      {comments.lenght ? (
+        <FlatList
+          data={comments}
+          renderItem={({ item }) => {
+            return <CommentInfoCard comment={item.comment} />;
+          }}
+          keyExtractor={(item, index) => index}
+        />
+      ) : (
+        <Center>
+          <Text>No Comment</Text>
+        </Center>
+      )}
+
+      <CommentSection postId={postId} />
     </Box>
   );
 };

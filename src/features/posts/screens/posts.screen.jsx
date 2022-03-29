@@ -12,8 +12,10 @@ import {
   selectIsLoading,
   selectPosts,
 } from "../../../redux/post/post.slice";
+import { selectCurrentUser } from "../../../redux/authentication/authentication.slice";
 
 export const PostsScreen = ({ navigation }) => {
+  const currentUser = useSelector(selectCurrentUser);
   const posts = useSelector(selectPosts);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
@@ -34,16 +36,19 @@ export const PostsScreen = ({ navigation }) => {
       ) : (
         <>
           <SearchBar />
-          <Fab
-            renderInPortal={false}
-            colorScheme="indigo"
-            shadow={2}
-            size="sm"
-            icon={
-              <Icon color="white" as={MaterialIcons} name="edit" size="sm" />
-            }
-            onPress={() => navigation.navigate("AddPost")}
-          />
+          {currentUser !== "" && (
+            <Fab
+              renderInPortal={false}
+              colorScheme="indigo"
+              shadow={2}
+              size="sm"
+              icon={
+                <Icon color="white" as={MaterialIcons} name="edit" size="sm" />
+              }
+              onPress={() => navigation.navigate("AddPost")}
+            />
+          )}
+
           <FlatList
             data={posts}
             renderItem={({ item }) => {

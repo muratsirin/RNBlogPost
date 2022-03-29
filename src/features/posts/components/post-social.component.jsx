@@ -16,6 +16,7 @@ const SocialIcon = ({ icon, text }) => {
 };
 
 export const PostSocial = ({
+  postId,
   comments,
   likeCount,
   commentCount,
@@ -25,7 +26,12 @@ export const PostSocial = ({
     <HStack alignItems="center" space={4} justifyContent="space-between">
       <SocialIcon icon="thumb-up-off-alt" text={likeCount} />
       <TouchableOpacity
-        onPress={() => navigation.navigate("Comments", { comments: comments })}
+        onPress={() =>
+          navigation.navigate("Comments", {
+            comments: comments,
+            postId: postId,
+          })
+        }
       >
         <SocialIcon icon="comment" text={commentCount} />
       </TouchableOpacity>

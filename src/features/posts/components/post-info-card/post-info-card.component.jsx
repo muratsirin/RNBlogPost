@@ -15,8 +15,10 @@ export const PostInfoCard = ({ post = {}, navigation }) => {
     likeCount = "384",
     commentCount = "24",
     comments = [{}],
+    id,
   } = post;
 
+  console.log(post);
   return (
     <Box paddingTop="4" alignItems="center">
       <Box
@@ -40,6 +42,7 @@ export const PostInfoCard = ({ post = {}, navigation }) => {
             commentCount={commentCount}
             navigation={navigation}
             comments={comments}
+            postId={id}
           />
         </Stack>
       </Box>

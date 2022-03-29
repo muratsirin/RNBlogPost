@@ -2,7 +2,7 @@ import React from "react";
 import { Box, VStack, HStack, Spacer, Text, Avatar } from "native-base";
 
 export const CommentInfoCard = ({ comment = {} }) => {
-  const { user, content } = comment;
+  const { author, content } = comment;
   return (
     <Box
       borderBottomWidth="1"
@@ -21,7 +21,7 @@ export const CommentInfoCard = ({ comment = {} }) => {
         />
         <VStack>
           <Text _dark={{ color: "indigo.600" }} color="coolGray.800" bold>
-            {`${user.name} ${user.surname}`}
+            {author.displayName}
           </Text>
           <Text _dark={{ color: "warmGray.200" }} color="coolGray.600">
             {content}
